@@ -17,6 +17,7 @@ logs/*
 # 3. 목표 파일까지 가는 상위폴더들을 순서대로 열어주기
 !logs/rsl_rl/
 !logs/rsl_rl/go2_velocity/
+logs/rsl_rl/go2_velocity/*
 !logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/
 logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/*
 
