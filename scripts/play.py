@@ -17,6 +17,8 @@ from mjlab.utils.os import get_wandb_checkpoint_path
 from mjlab.utils.torch import configure_torch_backends
 from mjlab.utils.wrappers import VideoRecorder
 from mjlab.viewer import NativeMujocoViewer, ViserPlayViewer
+from mjlab.viewer.glove_viewer import GlovePlayViewer
+from mjlab.utils.glove_controller import GloveConfig
 
 
 @dataclass(frozen=True)
@@ -32,7 +34,13 @@ class PlayConfig:
     video_height: int | None = None
     video_width: int | None = None
     camera: int | str | None = None
-    viewer: Literal["auto", "native", "viser"] = "auto"
+    viewer: Literal["auto", "native", "viser", "glove"] = "auto"
+
+    # Glove controller settings (only used when viewer="glove")
+    glove_port: str = "/dev/ttyACM0"
+    glove_control_mode: Literal["holonomic", "differential"] = "holonomic"
+    glove_max_lin_vel: float = 1.0
+    glove_max_ang_vel: float = 1.0
 
     # Internal flag used by demo script.
     _demo_mode: tyro.conf.Suppress[bool] = False
@@ -167,6 +175,20 @@ def run_play(task_id: str, cfg: PlayConfig):
         NativeMujocoViewer(env, policy).run()
     elif resolved_viewer == "viser":
         ViserPlayViewer(env, policy).run()
+    elif resolved_viewer == "glove":
+        # Create glove configuration from command-line arguments
+        glove_config = GloveConfig(
+            port=cfg.glove_port,
+            control_mode=cfg.glove_control_mode,
+            max_lin_vel=cfg.glove_max_lin_vel,
+            max_ang_vel=cfg.glove_max_ang_vel,
+        )
+        print(f"[INFO] Starting glove-controlled viewer")
+        print(f"[INFO]   Port: {cfg.glove_port}")
+        print(f"[INFO]   Control mode: {cfg.glove_control_mode}")
+        print(f"[INFO]   Max linear velocity: {cfg.glove_max_lin_vel} m/s")
+        print(f"[INFO]   Max angular velocity: {cfg.glove_max_ang_vel} rad/s")
+        GlovePlayViewer(env, policy, glove_config=glove_config).run()
     else:
         raise RuntimeError(f"Unsupported viewer backend: {resolved_viewer}")
 

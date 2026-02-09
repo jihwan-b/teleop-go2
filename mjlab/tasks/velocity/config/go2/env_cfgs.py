@@ -56,6 +56,7 @@ def unitree_go2_rough_env_cfg(play: bool = False) -> ManagerBasedRlEnvCfg:
   cfg.viewer.body_name = "base_link"
   cfg.viewer.distance = 1.5
   cfg.viewer.elevation = -10.0
+  # cfg.viewer.azimuth = 90.0  # Camera behind robot, looking forward (3rd person view)
 
   cfg.events["base_com"].params["asset_cfg"].body_names = ("base_link",)
 

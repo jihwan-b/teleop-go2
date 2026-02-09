@@ -43,9 +43,33 @@ class UniformVelocityCommand(CommandTerm):
     self.metrics["error_vel_xy"] = torch.zeros(self.num_envs, device=self.device)
     self.metrics["error_vel_yaw"] = torch.zeros(self.num_envs, device=self.device)
 
+    # External input interface (e.g., from glove/joystick)
+    self._external_vel_command = None
+    self._external_control_enabled = False
+
   @property
   def command(self) -> torch.Tensor:
     return self.vel_command_b
+
+  def set_external_command(
+    self, lin_x: float, lin_y: float, ang_z: float, enabled: bool = True
+  ) -> None:
+    """Set velocity command from external input (e.g., glove/joystick).
+
+    Args:
+      lin_x: Linear velocity in x direction (forward/backward) in m/s.
+      lin_y: Linear velocity in y direction (left/right) in m/s.
+      ang_z: Angular velocity around z axis (yaw) in rad/s.
+      enabled: Whether external control is active.
+    """
+    self._external_control_enabled = enabled
+    if enabled:
+      if self._external_vel_command is None:
+        self._external_vel_command = torch.zeros(self.num_envs, 3, device=self.device)
+      # Broadcast to all environments (single robot control mode)
+      self._external_vel_command[:, 0] = lin_x
+      self._external_vel_command[:, 1] = lin_y
+      self._external_vel_command[:, 2] = ang_z
 
   def _update_metrics(self) -> None:
     max_command_time = self.cfg.resampling_time_range[1]
@@ -89,6 +113,12 @@ class UniformVelocityCommand(CommandTerm):
       self.robot.write_root_state_to_sim(root_state, init_vel_env_ids)
 
   def _update_command(self) -> None:
+    # Priority 1: External control (glove/joystick) overrides all other commands
+    if self._external_control_enabled and self._external_vel_command is not None:
+      self.vel_command_b[:] = self._external_vel_command
+      return  # Skip internal command generation
+
+    # Priority 2: Default behavior (heading control + standing)
     if self.cfg.heading_command:
       self.heading_error = wrap_to_pi(self.heading_target - self.robot.data.heading_w)
       env_ids = self.is_heading_env.nonzero(as_tuple=False).flatten()
