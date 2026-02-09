@@ -1,0 +1,60 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	mjlab/__pycache__/
+	mjlab/actuator/__pycache__/
+	mjlab/asset_zoo/__pycache__/
+	mjlab/asset_zoo/robots/__pycache__/
+	mjlab/asset_zoo/robots/unitree_g1/__pycache__/
+	mjlab/asset_zoo/robots/unitree_go2/__pycache__/
+	mjlab/asset_zoo/robots/unitree_h1_2/__pycache__/
+	mjlab/entity/__pycache__/
+	mjlab/envs/__pycache__/
+	mjlab/envs/mdp/__pycache__/
+	mjlab/envs/mdp/actions/__pycache__/
+	mjlab/managers/__pycache__/
+	mjlab/rl/__pycache__/
+	mjlab/rsl_rl/__pycache__/
+	mjlab/rsl_rl/algorithms/__pycache__/
+	mjlab/rsl_rl/env/__pycache__/
+	mjlab/rsl_rl/modules/__pycache__/
+	mjlab/rsl_rl/networks/__pycache__/
+	mjlab/rsl_rl/runners/__pycache__/
+	mjlab/rsl_rl/storage/__pycache__/
+	mjlab/rsl_rl/utils/__pycache__/
+	mjlab/scene/__pycache__/
+	mjlab/sensor/__pycache__/
+	mjlab/sim/__pycache__/
+	mjlab/tasks/__pycache__/
+	mjlab/tasks/tracking/__pycache__/
+	mjlab/tasks/tracking/config/__pycache__/
+	mjlab/tasks/tracking/config/g1/__pycache__/
+	mjlab/tasks/tracking/mdp/__pycache__/
+	mjlab/tasks/tracking/rl/__pycache__/
+	mjlab/tasks/velocity/__pycache__/
+	mjlab/tasks/velocity/config/__pycache__/
+	mjlab/tasks/velocity/config/g1/__pycache__/
+	mjlab/tasks/velocity/config/g1_23dof/__pycache__/
+	mjlab/tasks/velocity/config/go2/__pycache__/
+	mjlab/tasks/velocity/config/h1_2/__pycache__/
+	mjlab/tasks/velocity/mdp/__pycache__/
+	mjlab/tasks/velocity/rl/__pycache__/
+	mjlab/terrains/__pycache__/
+	mjlab/utils/__pycache__/
+	mjlab/utils/buffers/__pycache__/
+	mjlab/utils/lab_api/__pycache__/
+	mjlab/utils/lab_api/rl/__pycache__/
+	mjlab/utils/lab_api/tasks/__pycache__/
+	mjlab/utils/noise/__pycache__/
+	mjlab/utils/wrappers/__pycache__/
+	mjlab/viewer/__pycache__/
+	mjlab/viewer/native/__pycache__/
+	mjlab/viewer/viser/__pycache__/
+
+nothing added to commit but untracked files present (use "git add" to track) 
+
+
+--- git diff ---

@@ -1,8 +1,9 @@
+# 1. 기존 목록
 *.egg-info
 .idea
 .claude
 outputs
-logs
+# logs 
 wandb
 MUJOCO_LOG.TXT
 deploy/robots/go2/build
@@ -10,12 +11,17 @@ deploy/robots/g1/build
 deploy/robots/g1_23dof/build
 deploy/robots/h1_2/build
 
+# 2. logs 내부의 모든파일 일단 무시
 logs/*
 
+# 3. 목표 파일까지 가는 상위폴더들을 순서대로 열어주기
+!logs/rsl_rl/
+!logs/rsl_rl/go2_velocity/
+!logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/
+logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/*
+
+# 4. 
 !logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/model_20000.pt
 !logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/policy.onnx
 !logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/policy.onnx.data
-!logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/params/*
-
-
-
+!logs/rsl_rl/go2_velocity/2026-02-06_23-07-57/params/
