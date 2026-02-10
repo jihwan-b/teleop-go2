@@ -106,6 +106,12 @@ class GlovePlayViewer(NativeMujocoViewer):
         # Note: GloveController returns (0, 0, 0) when magnet is not detected (OFF/WAITING state)
         lin_x, lin_y, ang_z = self.glove_controller.get_velocity_command()
 
+
+        # [added 0210] 핑거 벤딩 데이터 가져오기 (O: 굽힘, X: 펴짐)
+        finger_data = self.glove_controller.get_finger_data()
+        bending_str = "".join(["O" if bent else "X" for _, bent in finger_data])
+
+
         # Always enable external control - glove controller handles stopping (velocity=0) automatically
         # This ensures robot stops when magnet is removed, instead of reverting to random commands
         self._velocity_command_term.set_external_command(
@@ -117,6 +123,19 @@ class GlovePlayViewer(NativeMujocoViewer):
 
         # Log state changes (only when transitioning)
         state = self.glove_controller.get_state()
+
+        # [added 0210] 터미널에 실시간 상태 출력 (\r 사용)   
+        # 매 스텝 출력하면 너무 빠를 수 있으므로 필요하다면 카운터를 두어 조절 가능
+        print(
+            f"\rState: {state:8s} | "
+            f"lin_x: {lin_x:+.3f} m/s | "
+            f"lin_y: {lin_y:+.3f} m/s | "
+            f"ang_z: {ang_z:+.3f} rad/s | "
+            f"Bending:{bending_str}   ", # 끝에 공백을 조금 두어 잔상 제거
+            end="",
+            flush=True
+        )
+
         if not hasattr(self, "_last_glove_state"):
             self._last_glove_state = "OFF"
 
